@@ -18,13 +18,34 @@ pip install -r requirements.txt
 
 2. 환경 변수 설정:
 ```bash
-cp .env.example .env
-# .env 파일을 열어 OPENAI_API_KEY를 설정하세요
+# .env 파일 생성
+cat > .env << 'EOF'
+# OpenAI API Key (required)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Firecrawl API Key (optional - default is provided)
+FIRECRAWL_API_KEY=fc-6c6fb40857a14880b0145507e929b14a
+EOF
+
+# 실제 OpenAI API 키로 교체
+nano .env
 ```
 
 3. 서버 실행:
+
+**개발 환경:**
 ```bash
 python main.py
+```
+
+**프로덕션 환경 (권장):**
+```bash
+gunicorn main:app -c gunicorn.conf.py
+```
+
+**백그라운드 실행:**
+```bash
+nohup gunicorn main:app -c gunicorn.conf.py > server.log 2>&1 &
 ```
 
 서버는 http://localhost:8000 에서 실행됩니다.

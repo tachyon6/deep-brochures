@@ -27,13 +27,13 @@ app = FastAPI(
 # Request model
 class MediaSearchRequest(BaseModel):
     media_name: str
+    openai_api_key: str
+    firecrawl_api_key: str
 
 # Response model
 class MediaSearchResponse(BaseModel):
     result: Dict[str, str]
 
-# Get Firecrawl API key
-FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY", "fc-6c6fb40857a14880b0145507e929b14a")
 
 @app.get("/")
 async def root():
@@ -65,7 +65,10 @@ async def search_media_kit(request: MediaSearchRequest):
         logger.info(f"[API] Received search request for: {request.media_name}")
         
         # Create a new agent instance for each request (independent context)
-        agent = MediaKitSearchAgent(firecrawl_api_key=FIRECRAWL_API_KEY)
+        agent = MediaKitSearchAgent(
+            openai_api_key=request.openai_api_key,
+            firecrawl_api_key=request.firecrawl_api_key
+        )
         
         # Search for media kit
         result = agent.search_media_kit(request.media_name.strip())

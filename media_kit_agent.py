@@ -16,7 +16,8 @@ logger = logging.getLogger(__name__)
 class MediaKitSearchAgent:
     """Agent for searching media kits and advertising materials from Korean media outlets"""
     
-    def __init__(self, firecrawl_api_key: str):
+    def __init__(self, openai_api_key: str, firecrawl_api_key: str):
+        self.openai_api_key = openai_api_key
         self.firecrawl_tools = FirecrawlTools(api_key=firecrawl_api_key)
         
         # System prompt for the agent
@@ -81,7 +82,7 @@ class MediaKitSearchAgent:
         # Create the agent with OpenAI o3 model
         self.agent = Agent(
             name="Media Kit Search Agent",
-            model=OpenAIChat(id="o3"),  # Using o3 model
+            model=OpenAIChat(id="o3", api_key=openai_api_key),  # Using o3 model with provided API key
             instructions=instructions,
             tools=[self.firecrawl_tools],
             markdown=False,  # We want JSON output, not markdown
