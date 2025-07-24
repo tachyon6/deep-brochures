@@ -8,15 +8,15 @@ bind = "0.0.0.0:8000"
 backlog = 2048
 
 # Worker processes
-workers = 1  # EC2 t3.micro에서는 1개 워커 권장
+workers = 2  # EC2 t3.medium에서는 2개 워커 가능
 worker_class = "uvicorn.workers.UvicornWorker"
 worker_connections = 1000
-timeout = 30
-keepalive = 2
+timeout = 3600  # 1시간으로 증가 (o3 모델의 긴 처리 시간 고려)
+keepalive = 5
 
-# Restart workers after this many requests
-max_requests = 1000
-max_requests_jitter = 50
+# Restart workers after this many requests (메모리 누수 방지)
+max_requests = 100  # 더 자주 재시작하여 메모리 정리
+max_requests_jitter = 20
 
 # Logging
 loglevel = "info"
