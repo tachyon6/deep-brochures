@@ -85,5 +85,12 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    # Run with console logging only (no file logging)
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_config=None)
+    # Production에서는 gunicorn 사용 권장
+    # 개발 환경에서만 직접 실행
+    uvicorn.run(
+        app, 
+        host="127.0.0.1",  # production에서는 127.0.0.1 (nginx 뒤에서 실행)
+        port=8000, 
+        log_config=None,
+        workers=1  # EC2 t3.micro의 경우 1개 워커 권장
+    )
