@@ -136,5 +136,15 @@ class MediaKitSearchAgent:
             return {media_name: "찾을 수 없음"}
             
         except Exception as e:
-            logger.error(f"[AGENT ERROR] Unexpected error: {e}")
-            return {media_name: "찾을 수 없음"}
+            error_msg = str(e)
+            logger.error(f"[AGENT ERROR] Unexpected error: {error_msg}")
+            
+            # Check for specific error types
+            if "rate limit" in error_msg.lower():
+                return {media_name: f"에러: Rate limit 초과 - {error_msg}"}
+            elif "context" in error_msg.lower() and "token" in error_msg.lower():
+                return {media_name: f"에러: Context token 초과 - {error_msg}"}
+            elif "api" in error_msg.lower() and "key" in error_msg.lower():
+                return {media_name: f"에러: API 키 문제 - {error_msg}"}
+            else:
+                return {media_name: f"에러: {error_msg}"}

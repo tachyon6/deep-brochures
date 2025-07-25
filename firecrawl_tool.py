@@ -38,8 +38,15 @@ class FirecrawlTools(Toolkit):
             logger.warning("[TOOL RESPONSE] No results found")
             return []
         except Exception as e:
-            logger.error(f"[TOOL ERROR] Search error: {e}")
-            return []
+            error_msg = str(e)
+            logger.error(f"[TOOL ERROR] Search error: {error_msg}")
+            
+            # Return error information instead of empty list
+            return [{
+                "error": True,
+                "message": error_msg,
+                "type": "search_error"
+            }]
     
     def scrape(self, url: str) -> Dict[str, Any]:
         """
@@ -63,6 +70,13 @@ class FirecrawlTools(Toolkit):
                 logger.info(f"  Content length: {len(result['markdown'])} characters")
             return result
         except Exception as e:
-            logger.error(f"[TOOL ERROR] Scrape error: {e}")
-            return {}
+            error_msg = str(e)
+            logger.error(f"[TOOL ERROR] Scrape error: {error_msg}")
+            
+            # Return error information instead of empty dict
+            return {
+                "error": True,
+                "message": error_msg,
+                "type": "scrape_error"
+            }
     
