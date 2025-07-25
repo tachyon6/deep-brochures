@@ -1,0 +1,15 @@
+[2025-07-24 21:33:31 -0700] [82502] [INFO] Starting gunicorn 23.0.0
+[2025-07-24 21:33:31 -0700] [82502] [INFO] Listening at: http://0.0.0.0:8000 (82502)
+[2025-07-24 21:33:31 -0700] [82502] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2025-07-24 21:33:31 -0700] [82516] [INFO] Booting worker with pid: 82516
+[2025-07-24 21:33:31 -0700] [82516] [INFO] Started server process [82516]
+[2025-07-24 21:33:31 -0700] [82516] [INFO] Waiting for application startup.
+[2025-07-24 21:33:31 -0700] [82516] [INFO] Application startup complete.
+[2025-07-24 21:33:31 -0700] [82517] [INFO] Booting worker with pid: 82517
+[2025-07-24 21:33:31 -0700] [82517] [INFO] Started server process [82517]
+[2025-07-24 21:33:31 -0700] [82517] [INFO] Waiting for application startup.
+[2025-07-24 21:33:31 -0700] [82517] [INFO] Application startup complete.
+🧹 Cleaning up existing processes on port 8000...
+✅ Port 8000 is already free
+🌟 Starting gunicorn server...
+127.0.0.1:55302 - "GET /health HTTP/1.1" 200

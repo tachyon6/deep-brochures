@@ -15,8 +15,8 @@ timeout = 3600  # 1시간으로 증가 (o3 모델의 긴 처리 시간 고려)
 keepalive = 5
 
 # Restart workers after this many requests (메모리 누수 방지)
-max_requests = 100  # 더 자주 재시작하여 메모리 정리
-max_requests_jitter = 20
+max_requests = 0  # 재시작 비활성화 - 502 에러 방지
+max_requests_jitter = 0
 
 # Logging
 loglevel = "info"
@@ -27,7 +27,7 @@ errorlog = "-"
 proc_name = "media_kit_api"
 
 # Worker tmp directory
-worker_tmp_dir = "/dev/shm"
+worker_tmp_dir = "/tmp"
 
 # Preload app for memory efficiency
 preload_app = True
