@@ -29,6 +29,7 @@ class MediaSearchRequest(BaseModel):
     media_name: str
     openai_api_key: str
     firecrawl_api_key: str
+    strict_mode: bool = True  # Default to strict mode for backward compatibility
 
 # Response model
 class MediaSearchResponse(BaseModel):
@@ -43,6 +44,14 @@ async def root():
         "description": "Search for media kits and advertising materials from Korean media outlets",
         "endpoints": {
             "POST /search": "Search for media kit URL by media name"
+        },
+        "options": {
+            "strict_mode": {
+                "description": "Search mode setting",
+                "default": True,
+                "true": "Only search official media company websites (strict mode)",
+                "false": "Allow search engines and intermediate hubs (flexible mode)"
+            }
         }
     }
 
@@ -52,22 +61,28 @@ async def search_media_kit(request: MediaSearchRequest):
     Search for media kit URL for the given Korean media outlet
     
     Args:
-        request: MediaSearchRequest with media_name field
+        request: MediaSearchRequest with media_name and strict_mode fields
         
     Returns:
         MediaSearchResponse with the search result
+        
+    Note:
+        strict_mode=True: Only official media company websites (default)
+        strict_mode=False: Allows search engines and intermediate hubs
     """
     try:
         # Validate input
         if not request.media_name or not request.media_name.strip():
             raise HTTPException(status_code=400, detail="Media name cannot be empty")
         
-        logger.info(f"[API] Received search request for: {request.media_name}")
+        mode_text = "STRICT" if request.strict_mode else "FLEXIBLE"
+        logger.info(f"[API] Received search request for: {request.media_name} (Mode: {mode_text})")
         
         # Create a new agent instance for each request (independent context)
         agent = MediaKitSearchAgent(
             openai_api_key=request.openai_api_key,
-            firecrawl_api_key=request.firecrawl_api_key
+            firecrawl_api_key=request.firecrawl_api_key,
+            strict_mode=request.strict_mode
         )
         
         # Search for media kit

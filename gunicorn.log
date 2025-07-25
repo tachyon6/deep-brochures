@@ -13,3 +13,5 @@
 ✅ Port 8000 is already free
 🌟 Starting gunicorn server...
 127.0.0.1:55302 - "GET /health HTTP/1.1" 200
+127.0.0.1:54940 - "POST /generate HTTP/1.1" 404
+127.0.0.1:54941 - "POST /generate HTTP/1.1" 404
